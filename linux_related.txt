@@ -1,0 +1,43 @@
+1、查看文件夹占用空间大小
+du -sh *
+
+2、查看某个字符串在某个文件中出现的次数
+grep -c ‘字符串’ 文件名
+
+3、统计某个字符串出现的次数
+tail -n 10000 文件名 | grep 字符串 | wc -l
+
+4、查看文件夹大小
+ls  -lht
+
+5、小知识
+一个汉字占2个字节
+utf8的汉字算3个字节
+
+5、查看文件的头几行、最后几行
+head -n 10 文件名
+tail -n 10 文件名
+
+6、文件查找
+按文件名查找：
+     find 目录 -name 文件名
+
+7、重启nginx服务
+sudo /usr/local/nginx/sbin/nginx -s reload
+
+8、查找所有pyc文件并删除
+find . -type f -name '*.pyc' -exec rm -fr '{}' \;
+
+9、某个文件中查找某个字符串
+grep 字符串 filename
+     多个关键一起查询
+grep 关键字1 filename | grep 关键字2
+
+10、清空nohup日志
+cat /dev/null > nohup.out
+
+11、将grep的结果导入到一个文件中
+cat robot.info_logger.log-2017-08-07 | grep 'end sub_them appea' > /tmp/wenkaixiang.txt
+
+12、解决supervisor启动error
+http://www.gznotes.com/supervisor-socket-error-errno-101/

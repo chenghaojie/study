@@ -1,0 +1,79 @@
+1、查看表索引
+show index from 表名
+
+2、修改某个字段支持utf8mb4（表情符）
+alter table 表名 modify column 字段名 archer(2014) character set utf8mb4 collate utf8mb4_unicode_ci null;
+
+3、设置某个字段可以为null
+alter table chat_group_referralconsultationrecord modify doctor_group_id int(11) null;
+
+4、查看某个表的字段属性
+show full columns from 表名
+或者
+desc 表名
+
+5、数据库增加字段
+alter table 表名 add 字段名 tinyint(4) default 0;
+
+6、远程连接某个数据库
+mysql -u 用户名 -h 数据库地址 -P 数据库端口 -p 密码
+mysql -u news -h 10.9.36.178 -P 3307 -p
+
+7、数据库添加一条记录
+insert into table_name (列名1，列名2) values(列值1，列值2)
+权限表是  auth_permission
+select * from auth_permission where name=''
+insert into auth_user_user_permissions (user_id, permission_id) values(34649058, 4925);
+18911523252的user_id：27431645
+979     view user
+7     add user
+8     change user
+
+8、查询某个字段的和
+select sum(total_amount) from clinic_doctorincomerecord where doctor_id='clinic_web_7abc9b8a30f826e2';
+
+9、修改某个字段的值
+update 表名 set 字段名=修改值 where 条件，比如
+update auth_user set is_superuser=1 where id=1234565;
+
+10、删除表
+drop table 表名
+
+11、删除数据库某张表的某条记录
+delete from 表名 where id=1
+
+12、重启数据库服务
+sudo service mysqld restart
+
+13、查看mysql当前处于哪个数据库
+select database();
+或者status
+
+14、统计每个医生的仲裁结果
+sql语句：
+select reviewer_id, attitude, count(*) from clinic_doctorproblemreview where created_time >= '2016-10-01' group by reviewer_id, attitude;
+django实现：
+reviews = DoctorProblemReview.objects.filter(created_time__gt=start, created_time__lt=end,type=PROBLEM_REVIEW_TYPE_CHOICES.ARBITRATE,score__gt=1).values('reviewer', 'attitude').annotate(count=Count('id'))
+
+DoctorFinancialInfo.objects.all().values('id_card').annotate(count=Count('doctor')).filter(count__gt=1)
+
+15、like的用法
+select id from `ask_problem` where created_time >'2016-12-27' and created_time < '2016-12-28' and extra_info like '%is_paid_clinic%';
+
+south_migrationhistory
+
+select count(1) from ask_problem where to_doc=False and has_answer=True and created_time>'2013-1-1 00:00:00' and created_time < '2014-1-1 00:00:00'\G
+
+ALTER TABLE `chat_group_expertdoctor` MODIFY `second_class_clinic_no` varchar(10) NULL;
+
+select * from symptomchecker_doctor where clinic_no='3' and (second_class_clinic_no is null or second_class_clinic_no = '') order by -created_time limit 20\G
+
+深入理解SQL中的Join机制:
+http://www.jianshu.com/p/9e1d3793cba6
+
+16、查询有没有重复名称的医院
+select name, count(*) from doctormgr_candidatehospital group by name having count(*)>1;
+
+17、解决审核l列表医生打不开的问题
+select name, id, online_time from doctormgr_doctorcontact where edit_status='p' and online_hospital_id='wh_gzjqwhzyy' limit 1;
+select created_time, name, hospital_id from symptomchecker_doctor where created_time='2013-05-07 00:00:00' and name='丁帅';
